@@ -49,14 +49,14 @@ abstract class Simpson {
 	/** Approximate upper border. */
 	static void A2_() {
 		// 2) g(x) = -x^2 / 2
-		Function g = x -> exp(x.pow(2).negate().divide(TWO), P);
+		Function f = x -> exp(x.pow(2).negate().divide(TWO), P);
 
 		// 1 / sqrt(2 * pi)
 		BigDecimal k = ONE.divide(sqrt(TWO.multiply(pi(P)), P), P);
 
-		final BigDecimal INF = approxUpperBorder(g, P); // Positive Infinity for approximation
+		final BigDecimal INF = approxUpperBorder(f, P); // Positive Infinity for approximation
 
-		out.println("\n2: " + k.multiply(integral(g, ZERO, INF, P), P));
+		out.println("\n2: " + k.multiply(integral(f, ZERO, INF, P), P));
 	}
 
 	/** Approximation for constants. */
@@ -116,11 +116,10 @@ abstract class Simpson {
 		final List<BigDecimal> data = List.of("1.6", "1.8", "1.9", "1.4", "3.3", "1.6", "1.7", "1.3", "3.4") // Values
 				.stream().map(e -> new BigDecimal(e)).collect(Collectors.toList()); // To BigDecimal
 
-		// Average Value of data
-		final BigDecimal avg = data.stream().map(Objects::requireNonNull).reduce(BigDecimal.ZERO, BigDecimal::add)
-				.divide(valueOf(data.size()));
+		final BigDecimal n = valueOf(data.size());
 
-		final BigDecimal n = NINE;
+		// Average Value of data
+		final BigDecimal avg = data.stream().map(Objects::requireNonNull).reduce(BigDecimal.ZERO, BigDecimal::add).divide(n);
 
 		// Expected Value = 1.5
 		final BigDecimal expect = new BigDecimal("1.5");
